@@ -1,3 +1,4 @@
+
 const images = [
   {
     url: 'https://images.pexels.com/photos/140134/pexels-photo-140134.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
@@ -13,10 +14,45 @@ const images = [
   },
 ];
 
-const galleryElements = document.querySelector('.gallery');
-const imagesHTML = images.map(image => `<li>
-<img src='${ image.url }' alt='${ image.alt }'>
-</li>`).join('');
-galleryElements.insertAdjacentHTML('beforeend', imagesHTML);  
+const galleryElement = document.querySelector('.gallery');
+
+const createGalleryItem = (image) => {
+  const galleryItem = document.createElement('li');
+  galleryItem.classList.add('gallery-item');
+  
+  const img = document.createElement('img');
+  img.src = image.url;
+  img.alt = image.alt;
+  img.classList.add('gallery-image');
+  
+  galleryItem.appendChild(img);
+  
+  return galleryItem;
+};
+
+const createGallery = (images) => {
+  const galleryItems = images.map(createGalleryItem);
+  galleryItems.forEach(item => {
+    galleryElement.appendChild(item);
+  });
+};
+
+createGallery(images);
+
+galleryElement.classList.add('flex-container');
+
+galleryElement.style.display = 'flex';
+galleryElement.style.flexWrap = 'wrap';
+galleryElement.style.listStyle = 'none';
+galleryElement.querySelectorAll('.gallery-item').forEach(item => {
+  item.style.flex = '0 0 33.33%';
+  item.style.padding = '10px';
+  item.style.boxSizing = 'border-box';
+});
+
+galleryElement.querySelectorAll('.gallery-image').forEach(image => {
+  image.style.width = '100%';
+  image.style.height = 'auto';
+});
 
 
